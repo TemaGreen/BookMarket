@@ -13,11 +13,35 @@ public class UserEntity {
     @Column(name = "user_name")
     private String username;
 
-    private String password;
+    private String hash;
 
-    public UserEntity(String username, String password) {
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
         this.username = username;
-        this.password = password;
+    }
+
+    public String getHash() {
+        return hash;
+    }
+
+    public void setHash(String hash) {
+        this.hash = hash;
+    }
+
+    public UserEntity(String username, String hash) {
+        this.username = username;
+        this.hash = hash;
     }
 
     public UserEntity() {
