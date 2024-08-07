@@ -28,7 +28,7 @@ public class UserServiceImp implements UserService {
     public void checkUser(String username, String password) {
         Optional<UserEntity> optionalUser = userRepository.findByUsername(username);
         if (optionalUser.isEmpty())
-            throw new LoginException("A user named " + username + "is not found");
+            throw new LoginException("A user named " + username + " is not found");
         UserEntity user = optionalUser.get();
 
         if(!BCrypt.checkpw(password, user.getHash()))
