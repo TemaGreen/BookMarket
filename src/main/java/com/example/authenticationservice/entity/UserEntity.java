@@ -7,12 +7,15 @@ import jakarta.persistence.*;
 public class UserEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_seq")
+    @SequenceGenerator(name = "users_seq", allocationSize = 1)
     private int id;
 
-    @Column(name = "user_name")
+    @Column(name = "username")
     private String username;
 
+    @Column(name = "password")
     private String hash;
 
     public int getId() {
@@ -36,6 +39,12 @@ public class UserEntity {
     }
 
     public void setHash(String hash) {
+        this.hash = hash;
+    }
+
+    public UserEntity(int id, String username, String hash) {
+        this.id = id;
+        this.username = username;
         this.hash = hash;
     }
 

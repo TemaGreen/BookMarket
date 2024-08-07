@@ -5,6 +5,7 @@ import com.example.authenticationservice.exception.LoginException;
 import com.example.authenticationservice.exception.RegistrationException;
 import com.example.authenticationservice.repositories.UserRepository;
 import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -12,11 +13,12 @@ import java.util.Optional;
 @Service
 public class UserServiceImp implements UserService {
 
+    @Autowired
     private UserRepository userRepository;
 
     @Override
     public void registration(String username, String password) {
-        if(userRepository.findById(username).isPresent())
+        if(userRepository.findByUsername(username).isPresent())
             throw new RegistrationException("A user named " + username + " has already been registered");
         String hash = BCrypt.hashpw(password, BCrypt.gensalt());
         userRepository.save(new UserEntity(username, hash));
@@ -24,7 +26,7 @@ public class UserServiceImp implements UserService {
 
     @Override
     public void checkUser(String username, String password) {
-        Optional<UserEntity> optionalUser = userRepository.findById(username);
+        Optional<UserEntity> optionalUser = userRepository.findByUsername(username);
         if (optionalUser.isEmpty())
             throw new LoginException("A user named " + username + "is not found");
         UserEntity user = optionalUser.get();
